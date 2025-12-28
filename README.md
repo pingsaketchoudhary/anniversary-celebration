@@ -1,4 +1,4 @@
-# 🌌 Anniversary Celebration | Interactive Cinematic Experience
+# Anniversary Celebration | Interactive Cinematic Experience
 
 > *"Love is not just an emotion; it is an experience that transcends time and space."*
 
@@ -18,13 +18,13 @@
 
 ---
 
-## 📖 Introduction
+## Introduction
 
 **Anniversary Celebration** is more than just a website; it is a **digital love letter** crafted with the precision of modern engineering and the art of storytelling. Designed to celebrate a significant romantic milestone, this project pushes the boundaries of web interactivity to create an emotional journey for the user.
 
 Moving beyond static images and text, this application creates a living, breathing universe where memories drift like stars and emotions are visualized through light and motion.
 
-## 🎨 Design Philosophy: "Cosmic Luxury"
+## Design Philosophy: "Cosmic Luxury"
 
 The visual identity of this project is built on the concept of **Eternal Connection**.
 
@@ -38,7 +38,7 @@ The visual identity of this project is built on the concept of **Eternal Connect
 - **Parallax Timeline**: `MemoryLane` isn't just a scroll; it's a walk through time. Images tilt and shift in 3D space based on mouse movement, giving them physical weight.
 - **The Big Bang**: The finale isn't a simple footer. It is an interactive particle explosion, representing the expanding universe of the future.
 
-## 🛠️ Technical Architecture
+## Technical Architecture
 
 This project is built on a **High-Performance Creative Stack** designed for 60fps animations on all devices.
 
@@ -53,7 +53,7 @@ This project is built on a **High-Performance Creative Stack** designed for 60fp
 ### Why GSAP?
 - **Timeline Control**: Complex sequences (like the entrance animation or the timeline scrub) require precise timing that CSS cannot provide. GSAP's `ScrollTrigger` powers the `MemoryLane` pinning and scrub effects.
 
-## ✨ Core Features
+## Core Features
 
 | Feature | Technology | Description |
 |:---|:---|:---|
@@ -63,7 +63,7 @@ This project is built on a **High-Performance Creative Stack** designed for 60fp
 | **💌 Dynamic Letter** | `Framer Motion` | A text-reveal effect that mimics the natural flow of handwriting. |
 | **🎵 Spatial Audio** | `Web Audio API` | Ambient background music that persists across the experience with fade controls. |
 
-## 🚀 Installation & Setup
+## Installation & Setup
 
 Want to create your own digital tribute? Follow these steps to get this running locally.
 
@@ -93,7 +93,7 @@ Want to create your own digital tribute? Follow these steps to get this running 
     npm run build
     ```
 
-## 📂 Project Structure
+## Project Structure
 
 ```bash
 src/
@@ -108,7 +108,7 @@ src/
 └── styles/               # Tailwind & Global CSS
 ```
 
-## 🤝 Customization Guide
+## Customization Guide
 
 - **Memories**: Drop your images into `public/assets/memories`. Ensure they are optimized (WebP recommended).
 - **Story**: Edit `src/components/sections/LoveLetter.tsx` to rewrite the narrative.
@@ -120,8 +120,8 @@ src/
 
 **Developed with precision and passion.**
 
-[🌐 Portfolio](https://github.com/pingsaketchoudhary) &nbsp;•&nbsp; [🐦 Twitter](https://twitter.com) &nbsp;•&nbsp; [💼 LinkedIn](https://linkedin.com)
+[GitHub](https://github.com/pingsaketchoudhary) &nbsp;•&nbsp; [LinkedIn](https://in.linkedin.com/in/saket-kumar-choudhary-)
 
-&copy; 2024 Saket Kumar Choudhary. All Rights Reserved.
+&copy; 2025 Saket Kumar Choudhary. All Rights Reserved.
 
 </div>
