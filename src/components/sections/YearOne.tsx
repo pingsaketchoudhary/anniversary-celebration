@@ -1,0 +1,53 @@
+"use client";
+
+import { useRef, useLayoutEffect } from "react";
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import TextReveal from "@/components/animations/TextReveal";
+
+export default function YearOne() {
+    const container = useRef<HTMLDivElement>(null);
+    const contentRef = useRef<HTMLDivElement>(null);
+
+    useLayoutEffect(() => {
+        const ctx = gsap.context(() => {
+            // Pinning logic for storytelling
+            ScrollTrigger.create({
+                trigger: container.current,
+                start: "top top",
+                end: "+=100%",
+                pin: true,
+                scrub: 1,
+            });
+
+            gsap.from(contentRef.current, {
+                opacity: 0,
+                y: 100,
+                scrollTrigger: {
+                    trigger: container.current,
+                    start: "top center",
+                    end: "center center",
+                    scrub: 1,
+                },
+            });
+
+        }, container);
+
+        return () => ctx.revert();
+    }, []);
+
+    return (
+        <section ref={container} className="relative min-h-screen flex items-center justify-center bg-zinc-950 p-8">
+            <div ref={contentRef} className="max-w-3xl text-center space-y-8">
+                <span className="block text-gold text-lg tracking-[0.3em] font-sans">CHAPTER I</span>
+                <h2 className="text-4xl md:text-6xl font-serif text-ivory">Discovery</h2>
+                <p className="text-xl md:text-2xl text-zinc-400 font-serif leading-relaxed">
+                    <TextReveal>It started with a spark. The laughter, the late nights, the first realization that this was different.</TextReveal>
+                </p>
+                <p className="text-base text-zinc-500 font-sans max-w-xl mx-auto">
+                    Every moment felt new. We were exploring a world that only existed for us.
+                </p>
+            </div>
+        </section>
+    );
+}

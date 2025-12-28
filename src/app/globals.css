@@ -1,0 +1,60 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-playfair);
+  --font-handwriting: var(--font-handwriting);
+  --font-signature: var(--font-signature);
+  /* Fallback to variable name, will fix in globals if needed */
+
+
+  --color-background: #0a0a0a;
+  --color-foreground: #faf9f6;
+
+  --color-primary: #121212;
+  --color-secondary: #1a1a1a;
+
+  --color-accent: #d4af37;
+  --color-accent-muted: #bfa05f;
+
+  --color-blush: #e5d0cd;
+  --color-blush-dark: #bbaaaa;
+
+  --color-ivory: #faf9f6;
+  --color-charcoal: #121212;
+
+  --animate-fade-in: fade-in 1s ease-out forwards;
+}
+
+:root {
+  --background: #030303;
+  /* OLED Deep Black */
+  --foreground: #faf9f6;
+  --gold: #d4af37;
+}
+
+.text-gold {
+  color: var(--gold);
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+  transition: background-color 1.5s ease-in-out;
+  /* Cinematic Slow Transition */
+}
+
+@keyframes fade-in {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.perspective-1000 {
+  perspective: 1000px;
+}
