@@ -114,6 +114,13 @@ src/
 - **Story**: Edit `src/components/sections/LoveLetter.tsx` to rewrite the narrative.
 - **Audio**: Replace `public/audio/bgm.mp3` with your track.
 
+## React 19 Compatibility
+
+This project is fully optimized for **React 19** and **Next.js 16**. The codebase has been refactored to resolve:
+- **Impure Rendering**: Replaced non-deterministic `Math.random` calls in component render sequences with a seeded random number generator (PRNG).
+- **React Compiler Rules**: Resolved inline class syntax warnings and nested component declarations.
+- **Type Safety**: Converted generic types (`any`) to proper strict TypeScript interfaces.
+
 ---
 
 <div align="center">
