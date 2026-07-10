@@ -16,12 +16,30 @@ const PROMISES = [
     { title: "Eternal Love", desc: "A bound across time.", x: -3, y: 0, z: -2 },
 ];
 
+interface PromiseData {
+    title: string;
+    desc: string;
+    x: number;
+    y: number;
+    z: number;
+}
+
+// Seeded random number generator to ensure component purity
+function seedRandom(seed: number) {
+    let s = seed;
+    return function() {
+        s = (s * 9301 + 49297) % 233280;
+        return s / 233280;
+    };
+}
+
 function SpiralGalaxy() {
     const pointsRef = useRef<THREE.Points>(null);
     const count = 8000; // Dense galaxy
 
     // Generate Spiral
     const { positions, colors } = useMemo(() => {
+        const random = seedRandom(42);
         const pos = new Float32Array(count * 3);
         const col = new Float32Array(count * 3);
 
@@ -35,13 +53,13 @@ function SpiralGalaxy() {
         const outsideColor = new THREE.Color("#1b3984"); // Outer cool color
 
         for (let i = 0; i < count; i++) {
-            const r = Math.random() * radius;
+            const r = random() * radius;
             const spinAngle = r * spin;
             const branchAngle = (i % branches) / branches * Math.PI * 2;
 
-            const randomX = Math.pow(Math.random(), randomPower) * (Math.random() < 0.5 ? 1 : -1) * randomness * r;
-            const randomY = Math.pow(Math.random(), randomPower) * (Math.random() < 0.5 ? 1 : -1) * randomness * r;
-            const randomZ = Math.pow(Math.random(), randomPower) * (Math.random() < 0.5 ? 1 : -1) * randomness * r;
+            const randomX = Math.pow(random(), randomPower) * (random() < 0.5 ? 1 : -1) * randomness * r;
+            const randomY = Math.pow(random(), randomPower) * (random() < 0.5 ? 1 : -1) * randomness * r;
+            const randomZ = Math.pow(random(), randomPower) * (random() < 0.5 ? 1 : -1) * randomness * r;
 
             pos[i * 3] = Math.cos(spinAngle + branchAngle) * r + randomX;
             pos[i * 3 + 1] = randomY * 0.5; // Flatten galaxy
@@ -58,7 +76,7 @@ function SpiralGalaxy() {
         return { positions: pos, colors: col };
     }, []);
 
-    useFrame((state) => {
+    useFrame(() => {
         if (pointsRef.current) {
             pointsRef.current.rotation.y += 0.0005; // Majestic slow rotation
         }
@@ -67,14 +85,14 @@ function SpiralGalaxy() {
     return (
         <points ref={pointsRef}>
             <bufferGeometry>
-                {/* @ts-ignore */}
+                {/* @ts-expect-error - Attach elements may have R3F type mismatch */}
                 <bufferAttribute
                     attach="attributes-position"
                     count={count}
                     array={positions}
                     itemSize={3}
                 />
-                {/* @ts-ignore */}
+                {/* @ts-expect-error - Attach elements may have R3F type mismatch */}
                 <bufferAttribute
                     attach="attributes-color"
                     count={count}
@@ -94,7 +112,7 @@ function SpiralGalaxy() {
     );
 }
 
-function CrystalNode({ promise, onSelect }: { promise: any, onSelect: (p: any) => void }) {
+function CrystalNode({ promise, onSelect }: { promise: PromiseData, onSelect: (p: PromiseData) => void }) {
     return (
         <Float speed={2} rotationIntensity={1} floatIntensity={1}>
             <group position={[promise.x, promise.y, promise.z]}>
@@ -136,7 +154,7 @@ function CrystalNode({ promise, onSelect }: { promise: any, onSelect: (p: any) =
 }
 
 export default function TheFuture() {
-    const [selectedPromise, setSelectedPromise] = useState<any>(null);
+    const [selectedPromise, setSelectedPromise] = useState<PromiseData | null>(null);
 
     return (
         <section className="h-screen w-full bg-black relative overflow-hidden">

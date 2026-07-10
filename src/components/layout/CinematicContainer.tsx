@@ -1,6 +1,6 @@
 "use client";
 
-import { ReactNode, useEffect } from "react";
+import { ReactNode } from "react";
 import { ReactLenis } from "lenis/react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
@@ -8,18 +8,7 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 export default function CinematicContainer({ children }: { children: ReactNode }) {
-    useEffect(() => {
-        // Optional: Add global scroll-triggered effects here
-        const update = (time: number) => {
-            // lenis.raf(time * 1000) // handled by ReactLenis automatically
-        };
 
-        // requestAnimationFrame(update);
-
-        return () => {
-            // cleanup
-        };
-    }, []);
 
     return (
         <ReactLenis root options={{ lerp: 0.12, duration: 1.0, wheelMultiplier: 1.5, smoothWheel: true }}>

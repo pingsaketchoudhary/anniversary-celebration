@@ -2,7 +2,6 @@
 
 import { Canvas, CanvasProps } from "@react-three/fiber";
 import { useEffect, useState, Component, ErrorInfo, ReactNode } from "react";
-import * as THREE from "three";
 
 // Error Boundary to catch render crashes
 class ErrorBoundary extends Component<{ children: ReactNode; fallback: ReactNode }, { hasError: boolean }> {
@@ -11,7 +10,7 @@ class ErrorBoundary extends Component<{ children: ReactNode; fallback: ReactNode
         this.state = { hasError: false };
     }
 
-    static getDerivedStateFromError(_: Error) {
+    static getDerivedStateFromError() {
         return { hasError: true };
     }
 
@@ -37,15 +36,31 @@ export default function SafeThreeCanvas({ children, fallback = null, ...props }:
     const [mounted, setMounted] = useState(false);
 
     useEffect(() => {
-        setMounted(true);
-        try {
-            const canvas = document.createElement("canvas");
-            const context = canvas.getContext("webgl2") || canvas.getContext("webgl");
-            setIsWebGLAvailable(!!context);
-        } catch (e) {
-            console.warn("WebGL check failed:", e);
-            setIsWebGLAvailable(false);
-        }
+        let active = true;
+
+        const checkWebGL = () => {
+            try {
+                const canvas = document.createElement("canvas");
+                const context = canvas.getContext("webgl2") || canvas.getContext("webgl");
+                if (active) {
+                    setIsWebGLAvailable(!!context);
+                    setMounted(true);
+                }
+            } catch (e) {
+                console.warn("WebGL check failed:", e);
+                if (active) {
+                    setIsWebGLAvailable(false);
+                    setMounted(true);
+                }
+            }
+        };
+
+        const timer = setTimeout(checkWebGL, 0);
+
+        return () => {
+            active = false;
+            clearTimeout(timer);
+        };
     }, []);
 
     if (!mounted) return null;

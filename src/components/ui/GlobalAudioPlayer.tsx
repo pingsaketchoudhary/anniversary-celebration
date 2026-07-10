@@ -3,7 +3,6 @@
 import { useState, useEffect, useRef } from "react";
 
 export default function GlobalAudioPlayer() {
-    const [isPlaying, setIsPlaying] = useState(false);
     const [isMuted, setIsMuted] = useState(false);
     const audioRef = useRef<HTMLAudioElement | null>(null);
 
@@ -18,14 +17,12 @@ export default function GlobalAudioPlayer() {
         const handleEntrance = () => {
             if (audioRef.current) {
                 audioRef.current.play().catch(e => console.log("Play failed:", e));
-                setIsPlaying(true);
             }
         };
 
         const handleInteraction = () => {
             if (audioRef.current && audioRef.current.paused) {
                 audioRef.current.play().catch(e => console.log("Interaction play failed:", e));
-                setIsPlaying(true);
             }
         };
 

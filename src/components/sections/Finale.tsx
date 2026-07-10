@@ -2,13 +2,21 @@
 
 import { useRef, useState, useMemo, useEffect } from "react";
 import { useFrame } from "@react-three/fiber";
-import { Center, Text, Float } from "@react-three/drei";
 import SafeThreeCanvas from "@/components/ui/SafeThreeCanvas";
 import * as THREE from "three";
 import { motion } from "framer-motion";
 import Image from "next/image";
 
-function Core({ charging, exploded, onExplode }: { charging: boolean, exploded: boolean, onExplode: () => void }) {
+// Seeded random number generator to ensure component purity
+function seedRandom(seed: number) {
+    let s = seed;
+    return function() {
+        s = (s * 9301 + 49297) % 233280;
+        return s / 233280;
+    };
+}
+
+function Core({ charging, exploded }: { charging: boolean, exploded: boolean }) {
     // The core of the star that builds up energy
     const meshRef = useRef<THREE.Mesh>(null);
     const [scale, setScale] = useState(1);
@@ -55,21 +63,22 @@ function Shockwave({ exploded }: { exploded: boolean }) {
 
     // Initial random positions for debris
     const { positions, velocities } = useMemo(() => {
+        const random = seedRandom(99);
         const pos = new Float32Array(count * 3);
         const vel = new Float32Array(count * 3);
 
         for (let i = 0; i < count; i++) {
             // Sphere distribution
-            const theta = Math.random() * Math.PI * 2;
-            const phi = Math.acos(2 * Math.random() - 1);
-            const r = 0.5 + Math.random() * 2; // Start around core
+            const theta = random() * Math.PI * 2;
+            const phi = Math.acos(2 * random() - 1);
+            const r = 0.5 + random() * 2; // Start around core
 
             pos[i * 3] = r * Math.sin(phi) * Math.cos(theta);
             pos[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
             pos[i * 3 + 2] = r * Math.cos(phi);
 
             // Explosion velocity
-            const speed = 2 + Math.random() * 5;
+            const speed = 2 + random() * 5;
             vel[i * 3] = Math.sin(phi) * Math.cos(theta) * speed;
             vel[i * 3 + 1] = Math.sin(phi) * Math.sin(theta) * speed;
             vel[i * 3 + 2] = Math.cos(phi) * speed;
@@ -151,7 +160,7 @@ export default function Finale() {
 
             <SafeThreeCanvas camera={{ position: [0, 0, 5] }}>
                 <ambientLight intensity={0.5} />
-                <Core charging={charging} exploded={exploded} onExplode={() => setExploded(true)} />
+                <Core charging={charging} exploded={exploded} />
                 <Shockwave exploded={exploded} />
             </SafeThreeCanvas>
 

@@ -1,28 +1,38 @@
 "use client";
 
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, ComponentPropsWithoutRef } from "react";
 import { useFrame } from "@react-three/fiber";
 import SafeThreeCanvas from "@/components/ui/SafeThreeCanvas";
 import { Points, PointMaterial } from "@react-three/drei";
-// @ts-ignore
+import * as THREE from "three";
+// @ts-expect-error - maath does not have built-in typescript declarations
 import * as random from "maath/random/dist/maath-random.esm";
 
-function Stars(props: any) {
-    const ref = useRef<any>(null);
+function Stars(props: ComponentPropsWithoutRef<typeof Points>) {
+    const ref = useRef<THREE.Points>(null);
     // Optimized particle count: 9000 for Desktop, 3000 for Mobile
     const [sphere, setSphere] = useState(() => random.inSphere(new Float32Array(9000), { radius: 1.2 }));
 
     useEffect(() => {
+        let active = true;
         // Reduce load on mobile devices
-        if (typeof window !== "undefined" && window.innerWidth < 768) {
-            setSphere(random.inSphere(new Float32Array(3000), { radius: 1.2 }));
-        }
+        const checkMobile = () => {
+            if (typeof window !== "undefined" && window.innerWidth < 768 && active) {
+                setSphere(random.inSphere(new Float32Array(3000), { radius: 1.2 }));
+            }
+        };
+        const timer = setTimeout(checkMobile, 0);
+        return () => {
+            active = false;
+            clearTimeout(timer);
+        };
     }, []);
 
     // Hydration fix
     const [mounted, setMounted] = useState(false);
     useEffect(() => {
-        setMounted(true);
+        const timer = setTimeout(() => setMounted(true), 0);
+        return () => clearTimeout(timer);
     }, []);
 
     useFrame((state, delta) => {

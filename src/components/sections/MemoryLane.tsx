@@ -6,6 +6,16 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 import Image from "next/image";
 import MagneticText from "../interactive/MagneticText";
 
+gsap.registerPlugin(ScrollTrigger);
+
+interface MemoryData {
+    id: number;
+    year: string;
+    title: string;
+    desc: string;
+    image: string;
+}
+
 export default function MemoryLane() {
     const container = useRef<HTMLDivElement>(null);
     const trackRef = useRef<HTMLDivElement>(null);
@@ -50,7 +60,7 @@ export default function MemoryLane() {
         return () => ctx.revert();
     }, []);
 
-    const memories = [
+    const memories: MemoryData[] = [
         {
             id: 1,
             year: "Year I",
@@ -106,8 +116,8 @@ export default function MemoryLane() {
                     <MagneticText text="TIMELINE" className="text-6xl md:text-8xl font-serif text-ivory tracking-widest" />
                 </div>
 
-                {memories.map((memory, index) => (
-                    <HoloCard key={memory.id} memory={memory} index={index} />
+                {memories.map((memory) => (
+                    <HoloCard key={memory.id} memory={memory} />
                 ))}
 
                 <div className="w-[80vh] h-[60vh] flex items-center justify-center shrink-0 ml-32 opacity-10">
@@ -118,7 +128,7 @@ export default function MemoryLane() {
     );
 }
 
-function HoloCard({ memory, index }: { memory: any, index: number }) {
+function HoloCard({ memory }: { memory: MemoryData }) {
     const cardRef = useRef<HTMLDivElement>(null);
     const [transformStyle, setTransformStyle] = useState({});
     const [shineStyle, setShineStyle] = useState({});

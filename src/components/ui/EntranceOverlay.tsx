@@ -3,20 +3,20 @@
 import { useState, useRef, useEffect } from "react";
 import gsap from "gsap";
 
+// Hacker text sequence
+const sequence = [
+    "INITIALIZING CONNECTION...",
+    "BYPASSING SECURITY PROTOCOL...",
+    "ACCESSING CORE MEMORIES...",
+    "ENCRYPTION KEY: PINGSAKETCHOUDHARY",
+    "ACCESS GRANTED.",
+    "WELCOME, USER."
+];
+
 export default function EntranceOverlay() {
     const [isVisible, setIsVisible] = useState(true);
     const [lines, setLines] = useState<string[]>([]);
     const [showButton, setShowButton] = useState(false);
-
-    // Hacker text sequence
-    const sequence = [
-        "INITIALIZING CONNECTION...",
-        "BYPASSING SECURITY PROTOCOL...",
-        "ACCESSING CORE MEMORIES...",
-        "ENCRYPTION KEY: PINGSAKETCHOUDHARY",
-        "ACCESS GRANTED.",
-        "WELCOME, USER."
-    ];
 
     const containerRef = useRef<HTMLDivElement>(null);
     const textRef = useRef<HTMLDivElement>(null);

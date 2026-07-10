@@ -5,33 +5,6 @@ import { useEffect, useRef } from "react";
 export default function SpatialAudio() {
     const audioContextRef = useRef<AudioContext | null>(null);
 
-    useEffect(() => {
-        // Initialize Audio Context on user interaction
-        const initAudio = () => {
-            if (!audioContextRef.current) {
-                audioContextRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
-            }
-        };
-
-        window.addEventListener('click', initAudio, { once: true });
-        return () => window.removeEventListener('click', initAudio);
-    }, []);
-
-    useEffect(() => {
-        const handleHover = (e: MouseEvent) => {
-            const target = e.target as HTMLElement;
-            // Play sound if hovering over interactive elements
-            if (target.tagName === 'A' || target.tagName === 'BUTTON' || target.closest('.memory-card')) {
-                playSound('hover');
-            }
-        };
-
-        // Throttled scroll sound could go here, but let's keep it subtle for now.
-
-        window.addEventListener('mouseover', handleHover);
-        return () => window.removeEventListener('mouseover', handleHover);
-    }, []);
-
     const playSound = (type: 'hover' | 'click') => {
         if (!audioContextRef.current) return;
         const ctx = audioContextRef.current;
@@ -56,6 +29,36 @@ export default function SpatialAudio() {
             osc.stop(now + 0.05);
         }
     };
+
+    useEffect(() => {
+        // Initialize Audio Context on user interaction
+        const initAudio = () => {
+            if (!audioContextRef.current) {
+                const AudioContextClass = window.AudioContext || (window as unknown as Window & { webkitAudioContext?: typeof AudioContext }).webkitAudioContext;
+                if (AudioContextClass) {
+                    audioContextRef.current = new AudioContextClass();
+                }
+            }
+        };
+
+        window.addEventListener('click', initAudio, { once: true });
+        return () => window.removeEventListener('click', initAudio);
+    }, []);
+
+    useEffect(() => {
+        const handleHover = (e: MouseEvent) => {
+            const target = e.target as HTMLElement;
+            // Play sound if hovering over interactive elements
+            if (target.tagName === 'A' || target.tagName === 'BUTTON' || target.closest('.memory-card')) {
+                playSound('hover');
+            }
+        };
+
+        // Throttled scroll sound could go here, but let's keep it subtle for now.
+
+        window.addEventListener('mouseover', handleHover);
+        return () => window.removeEventListener('mouseover', handleHover);
+    }, []);
 
     return null; // Logic only component
 }

@@ -6,6 +6,7 @@ import { useRef } from 'react'
 export default function SmoothScroll({ children }: { children: React.ReactNode }) {
     const contentRef = useRef<HTMLDivElement>(null)
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     useLenis((lenis: any) => {
         const { velocity } = lenis;
         if (contentRef.current) {

@@ -3,6 +3,35 @@
 import { useRef } from "react";
 import { motion, useInView } from "framer-motion";
 
+interface TypewriterTextProps {
+    text: string;
+    delay?: number;
+    isInView: boolean;
+}
+
+const TypewriterText = ({ text, delay = 0, isInView }: TypewriterTextProps) => {
+    // Splitting into characters for realistic writing effect
+    const characters = text.split("");
+    return (
+        <p className="font-handwriting text-2xl md:text-3xl leading-relaxed text-zinc-800 tracking-wide mb-6">
+            {characters.map((char, index) => (
+                <motion.span
+                    key={index}
+                    initial={{ opacity: 0 }}
+                    animate={isInView ? { opacity: 1 } : {}}
+                    transition={{
+                        duration: 0.05,
+                        delay: delay + (index * 0.03), // Sequential writing speed
+                        ease: "easeOut"
+                    }}
+                >
+                    {char}
+                </motion.span>
+            ))}
+        </p>
+    );
+};
+
 export default function LoveLetter() {
     const container = useRef<HTMLDivElement>(null);
     const isInView = useInView(container, { once: true, margin: "-20%" });
@@ -11,29 +40,6 @@ export default function LoveLetter() {
     const paragraph2 = "Writing this, I realize how much we have built. Not just a relationship, but a life. A fortress of trust, laughter, and quiet moments that mean everything to me.";
     const paragraph3 = "Thank you for being my rock, my joy, and my greatest adventure.";
     const paragraph4 = "Here is to the next three, thirty, and three hundred years.";
-
-    const TypewriterText = ({ text, delay = 0 }: { text: string, delay?: number }) => {
-        // Splitting into characters for realistic writing effect
-        const characters = text.split("");
-        return (
-            <p className="font-handwriting text-2xl md:text-3xl leading-relaxed text-zinc-800 tracking-wide mb-6">
-                {characters.map((char, index) => (
-                    <motion.span
-                        key={index}
-                        initial={{ opacity: 0 }}
-                        animate={isInView ? { opacity: 1 } : {}}
-                        transition={{
-                            duration: 0.05,
-                            delay: delay + (index * 0.03), // Sequential writing speed
-                            ease: "easeOut"
-                        }}
-                    >
-                        {char}
-                    </motion.span>
-                ))}
-            </p>
-        );
-    };
 
     return (
         <section ref={container} className="relative min-h-screen flex items-center justify-center bg-[#faf9f6] text-charcoal p-8 md:p-16 overflow-hidden">
@@ -55,10 +61,10 @@ export default function LoveLetter() {
                 </h3>
 
                 <div className="space-y-4">
-                    <TypewriterText text={paragraph1} delay={0} />
-                    <TypewriterText text={paragraph2} delay={3} />
-                    <TypewriterText text={paragraph3} delay={9} />
-                    <TypewriterText text={paragraph4} delay={12} />
+                    <TypewriterText text={paragraph1} delay={0} isInView={isInView} />
+                    <TypewriterText text={paragraph2} delay={3} isInView={isInView} />
+                    <TypewriterText text={paragraph3} delay={9} isInView={isInView} />
+                    <TypewriterText text={paragraph4} delay={12} isInView={isInView} />
                 </div>
 
                 <div className="mt-20 text-right">

@@ -3,7 +3,8 @@
 import { useRef, useLayoutEffect } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import TextReveal from "@/components/animations/TextReveal";
+
+gsap.registerPlugin(ScrollTrigger);
 
 export default function Hero() {
     const container = useRef<HTMLDivElement>(null);
